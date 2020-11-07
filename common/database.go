@@ -2,9 +2,11 @@ package common
 
 import (
 	"fmt"
+	"os"
+	"path/filepath"
+
 	"github.com/jinzhu/gorm"
 	_ "github.com/jinzhu/gorm/dialects/sqlite"
-	"os"
 )
 
 type Database struct {
@@ -15,9 +17,17 @@ var DB *gorm.DB
 
 // Opening a database and save the reference to `Database` struct.
 func Init() *gorm.DB {
-	db, err := gorm.Open("sqlite3", "./../gorm.db")
+	dbPath := os.Getenv("DB_PATH")
+	if dbPath == "" {
+		dbPath = "./../"
+	}
+	dbPath = filepath.Join(dbPath, "gorm.db")
+	fmt.Println("DB file path", dbPath)
+
+	db, err := gorm.Open("sqlite3", dbPath)
 	if err != nil {
 		fmt.Println("db err: ", err)
+		panic(err)
 	}
 	db.DB().SetMaxIdleConns(10)
 	//db.LogMode(true)

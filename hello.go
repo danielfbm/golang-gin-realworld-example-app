@@ -5,14 +5,15 @@ import (
 
 	"gopkg.in/gin-gonic/gin.v1"
 
+	"app/articles"
+	"app/common"
+	"app/users"
+
 	"github.com/jinzhu/gorm"
-	"github.com/wangzitian0/golang-gin-starter-kit/articles"
-	"github.com/wangzitian0/golang-gin-starter-kit/common"
-	"github.com/wangzitian0/golang-gin-starter-kit/users"
 )
 
 func Migrate(db *gorm.DB) {
-	users.AutoMigrate()
+	users.AutoMigrate(db)
 	db.AutoMigrate(&articles.ArticleModel{})
 	db.AutoMigrate(&articles.TagModel{})
 	db.AutoMigrate(&articles.FavoriteModel{})

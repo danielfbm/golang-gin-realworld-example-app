@@ -2,6 +2,7 @@ package users
 
 import (
 	"errors"
+
 	"github.com/jinzhu/gorm"
 	"github.com/wangzitian0/golang-gin-starter-kit/common"
 	"golang.org/x/crypto/bcrypt"
@@ -40,8 +41,8 @@ type FollowModel struct {
 }
 
 // Migrate the schema of database if needed
-func AutoMigrate() {
-	db := common.GetDB()
+func AutoMigrate(db *gorm.DB) {
+	// db := common.GetDB()
 
 	db.AutoMigrate(&UserModel{})
 	db.AutoMigrate(&FollowModel{})
